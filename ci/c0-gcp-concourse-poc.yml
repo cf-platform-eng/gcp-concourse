@@ -45,7 +45,7 @@ resources:
 - name: gcp-concourse
   type: git
   source:
-    uri: https://github.com/c0-ops/gcp-concourse.git
+    uri: https://github.com/cf-platform-eng/gcp-concourse.git
     branch: master
 
 - name: tool-om

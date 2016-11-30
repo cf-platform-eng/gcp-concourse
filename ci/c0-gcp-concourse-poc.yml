@@ -46,7 +46,7 @@ resources:
   type: git
   source:
     uri: https://github.com/cf-platform-eng/gcp-concourse.git
-    branch: pie
+    branch: master
 
 - name: tool-om
   type: github-release
@@ -321,8 +321,8 @@ jobs:
   plan:
   - aggregate:
     - get: gcp-concourse
-      # trigger: true
-      # passed: [upload-ert]
+      trigger: true
+      passed: [upload-ert]
     - get: tool-om
       version: { tag: '0.10.0' }
       params:

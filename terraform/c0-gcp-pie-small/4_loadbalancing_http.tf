@@ -29,14 +29,6 @@ resource "google_compute_backend_service" "ert_http_lb_backend_service" {
     group = "${google_compute_instance_group.ert-http-lb.0.self_link}"
   }
 
-  backend {
-    group = "${google_compute_instance_group.ert-http-lb.1.self_link}"
-  }
-
-  backend {
-    group = "${google_compute_instance_group.ert-http-lb.2.self_link}"
-  }
-
   health_checks = ["${google_compute_http_health_check.cf.self_link}"]
 }
 

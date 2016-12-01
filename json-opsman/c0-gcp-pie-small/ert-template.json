@@ -24,7 +24,7 @@
           }
       },
       ".properties.tcp_routing": {
-        "value": "disable"
+        "value": "enable"
       },
       ".properties.route_services": {
         "value": "enable"

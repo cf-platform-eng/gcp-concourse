@@ -25,6 +25,7 @@ groups:
   - deploy-ert
 
 - name: services
+  - upload-mysql
 
 resource_types:
 
@@ -71,6 +72,33 @@ resources:
     api_token: {{pcf_pivnet_token}}
     product_slug: elastic-runtime
     product_version: 1\.8\..*
+    sort_by: semver
+
+- name: pivnet-mysql
+  type: pivnet
+  check_every: 4h
+  source:
+    api_token: {{pcf_pivnet_token}}
+    product_slug: p-mysql
+    product_version: 1\.8\..*
+    sort_by: semver
+
+- name: pivnet-redis
+  type: pivnet
+  check_every: 4h
+  source:
+    api_token: {{pcf_pivnet_token}}
+    product_slug: p-redis
+    product_version: 1\.6\..*
+    sort_by: semver
+
+- name: pivnet-rabbitmq
+  type: pivnet
+  check_every: 4h
+  source:
+    api_token: {{pcf_pivnet_token}}
+    product_slug: p-rabbitmq
+    product_version: 1\.7\..*
     sort_by: semver
 
 jobs:
@@ -356,3 +384,41 @@ jobs:
         gcp_svc_acct_key: {{gcp_svc_acct_key}}
         gcp_storage_access_key: {{gcp_storage_access_key}}
         gcp_storage_secret_key: {{gcp_storage_secret_key}}
+###########################
+## Job - Upload MySQL    ##
+###########################
+- name: upload-mysql
+  serial: true
+  max_in_flight: 1
+  serial_groups: [full]
+  plan:
+  - aggregate:
+    - get: gcp-concourse
+      # trigger: true
+      # passed: [deploy-ert]
+    - get: pivnet-mysql
+      trigger: false
+      params:
+        globs:
+        - "*pivotal"
+    - get: tool-om
+      params:
+        globs:
+        - "om-linux"
+  - task: upload-p-mysql
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: virtmerlin/c0-worker-gcp
+      inputs:
+        - name: gcp-concourse
+        - name: tool-om
+        - name: pivnet-mysql
+      run:
+        path: gcp-concourse/ci/tasks/ert/upload-mysql.sh
+      params:
+        pcf_ert_domain: {{pcf_ert_domain}}
+        pcf_opsman_admin: {{pcf_opsman_admin}}
+        pcf_opsman_admin_passwd: {{pcf_opsman_admin_passwd}}

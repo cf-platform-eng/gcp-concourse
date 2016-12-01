@@ -418,7 +418,7 @@ jobs:
         - name: tool-om
         - name: pivnet-mysql
       run:
-        path: gcp-concourse/ci/tasks/ert/upload-mysql.sh
+        path: gcp-concourse/ci/tasks/services/upload-mysql.sh
       params:
         pcf_ert_domain: {{pcf_ert_domain}}
         pcf_opsman_admin: {{pcf_opsman_admin}}

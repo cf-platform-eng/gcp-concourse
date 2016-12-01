@@ -144,7 +144,8 @@
   },
   "errands": {
     "errands": [
-      {"name": "autoscaling", "post_deploy": false}
+      {"name": "autoscaling", "post_deploy": false},
+      {"name": "autoscaling-register-broker", "post_deploy": false}
     ]
   }
 }

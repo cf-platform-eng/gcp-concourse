@@ -72,7 +72,7 @@ resource "google_compute_ssl_certificate" "ssl-cert" {
 
 resource "google_compute_http_health_check" "cf" {
   name                = "${var.gcp_terraform_prefix}-cf-public"
-//  host                = "api.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
+//  host                = "api.sys.${var.pcf_ert_domain}."
   port                = 8080
   request_path        = "/health"
   check_interval_sec  = 30

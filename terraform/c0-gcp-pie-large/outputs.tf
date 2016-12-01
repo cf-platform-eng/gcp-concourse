@@ -38,10 +38,6 @@ output "ops_manager_public_ip" {
   value = "${google_compute_instance.ops-manager.network_interface.0.access_config.0.assigned_nat_ip}"
 }
 
-output "env_dns_zone_name_servers" {
-  value = "${google_dns_managed_zone.env_dns_zone.name_servers}"
-}
-
 // Network Output
 
 output "network_name" {

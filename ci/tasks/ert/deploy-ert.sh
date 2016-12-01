@@ -124,6 +124,15 @@ echo "==========================================================================
 json_properties=$(cat ${json_file} | jq .properties)
 fn_om_linux_curl "PUT" "/api/v0/staged/products/${guid_cf}/properties" "${json_properties}"
 
+json_errands=$(cat ${json_file} | jq .errands)
+if [[ -n "${json_errands}" ]]; then
+  # Set ERT Errands
+  echo "=============================================================================================="
+  echo "Setting Errands for: ${guid_cf}"
+  echo "=============================================================================================="
+  fn_om_linux_curl "PUT" "/api/v0/staged/products/${guid_cf}/errands" "${json_errands}"
+fi
+
 # Set Resource Configs
 echo "=============================================================================================="
 echo "Setting Resource Job Properties for: ${guid_cf}"
@@ -142,7 +151,6 @@ for job in $(echo ${json_jobs_configs} | jq . | jq 'keys' | jq .[] | tr -d '"');
  fn_om_linux_curl "PUT" "/api/v0/staged/products/${guid_cf}/jobs/${json_job_guid}/resource_config" "${json_job_config}"
 
 done
-
 
 # Apply Changes in Opsman
 echo "=============================================================================================="

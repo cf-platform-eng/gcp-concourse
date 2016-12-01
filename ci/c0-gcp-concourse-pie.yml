@@ -25,6 +25,7 @@ groups:
   - deploy-ert
 
 - name: services
+  jobs:
   - upload-mysql
 
 resource_types:

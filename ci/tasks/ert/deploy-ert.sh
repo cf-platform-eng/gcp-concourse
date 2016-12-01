@@ -125,7 +125,7 @@ json_properties=$(cat ${json_file} | jq .properties)
 fn_om_linux_curl "PUT" "/api/v0/staged/products/${guid_cf}/properties" "${json_properties}"
 
 json_errands=$(cat ${json_file} | jq .errands)
-if [[ -n "${json_errands}" ]]; then
+if [ -n "${json_errands}" ]; then
   # Set ERT Errands
   echo "=============================================================================================="
   echo "Setting Errands for: ${guid_cf}"

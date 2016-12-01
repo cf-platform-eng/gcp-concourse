@@ -23,3 +23,4 @@ variable "pub_ip_ssh_tcp_lb" {}
 variable "ert_sql_instance_name" {}
 variable "ert_sql_db_username" {}
 variable "ert_sql_db_password" {}
+variable "gcp_managed_zone" {}

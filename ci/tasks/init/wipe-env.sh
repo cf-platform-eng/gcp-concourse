@@ -139,10 +139,9 @@ for z in ${COMPONENT[@]}; do
            gcloud $z delete $i --region $gcp_region --quiet
        fi
    elif [[ $z == "dns managed-zones" ]]; then
-      touch /tmp/empty-file
-      gcloud dns record-sets import -z "$i" --delete-all-existing /tmp/empty-file
-      rm -rf /tmp/empty-file
-      gcloud $z delete $i --quiet
+      gcloud dns record-sets export /tmp/old-record-sets -z "${gcp_managed_zone}" --zone-file-format
+      grep -v '.${gcp_terraform_prefix}.' /tmp/old-record-sets > /tmp/new-record-sets
+      gcloud dns record-sets import -z "${gcp_managed_zone}" --delete-all-existing /tmp/new-record-sets
    else
 		 	gcloud $z delete $i --quiet
 	 fi

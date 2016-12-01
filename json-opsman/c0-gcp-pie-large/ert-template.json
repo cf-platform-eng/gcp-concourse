@@ -25,7 +25,7 @@
           }
       },
       ".properties.tcp_routing": {
-        "value": "enable"
+        "value": "disable"
       },
       ".properties.route_services": {
         "value": "enable"
@@ -125,7 +125,7 @@
       "diego_cell": {"instance_type": {"id": "automatic"},"instances": 4,"elb_names": [],"internet_connected": false},
       "doppler": {"instance_type": {"id": "automatic"},"instances": 2,"elb_names": [],"internet_connected": false},
       "loggregator_trafficcontroller": {"instance_type": {"id": "automatic"},"instances": 2,"elb_names": [],"internet_connected": false},
-      "tcp_router": {"instance_type": {"id": "automatic"},"instances": 2,"elb_names": [],"internet_connected": false,"persistent_disk":{"size_mb":"automatic"}},
+      "tcp_router": {"instance_type": {"id": "automatic"},"instances": 0,"elb_names": [],"internet_connected": false,"persistent_disk":{"size_mb":"automatic"}},
       "backup-prepare": {"instance_type": {"id": "automatic"},"instances": 0,"elb_names": [],"internet_connected": false,"persistent_disk":{"size_mb":"automatic"}},
       "push-apps-manager": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},
       "smoke-tests": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},

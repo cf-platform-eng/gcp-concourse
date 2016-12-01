@@ -8,7 +8,7 @@ resource "google_dns_managed_zone" "env_dns_zone" {
   description = "DNS zone (var.pcf_ert_domain)for the var.gcp_terraform_prefix deployment"
   lifecycle {
     prevent_destroy = true
-    ignore_changes = ["ami"]
+    ignore_changes = [ "name", "dns_name", "description" ]
   }
 }
 

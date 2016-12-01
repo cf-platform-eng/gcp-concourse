@@ -74,7 +74,7 @@ resource "google_dns_record_set" "loggregator-dns" {
 }
 
 resource "google_dns_record_set" "tcp-dns" {
-  name       = "tcp.${var.env_dns_zone.domain"
+  name       = "tcp.${var.env_dns_zone.domain}"
   type       = "A"
   ttl        = 300
 

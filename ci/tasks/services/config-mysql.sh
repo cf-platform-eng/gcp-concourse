@@ -76,7 +76,7 @@ echo "Deploying MySQL @ https://opsman.$pcf_ert_domain ..."
 echo "=============================================================================================="
 # Get p-mysql Product Guid
 guid_mysql=$(fn_om_linux_curl "GET" "/api/v0/staged/products" \
-            | jq '.[] | select(.type == "cf") | .guid' | tr -d '"' | grep "p-mysql-.*")
+            | jq '.[] | select(.type == "p-mysql") | .guid' | tr -d '"' | grep "p-mysql-.*")
 
 echo "=============================================================================================="
 echo "Found MySQL Deployment with guid of ${guid_mysql}"

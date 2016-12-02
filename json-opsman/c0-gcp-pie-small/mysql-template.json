@@ -8,7 +8,7 @@
         { "name": "{{gcp_zone_1}}" }
       ],
       "network": {
-        "name": "services"
+        "name": "services-1"
       }
     }
   },

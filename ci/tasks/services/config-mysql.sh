@@ -79,7 +79,7 @@ guid_mysql=$(fn_om_linux_curl "GET" "/api/v0/staged/products" \
             | jq '.[] | select(.type == "cf") | .guid' | tr -d '"' | grep "p-mysql-.*")
 
 echo "=============================================================================================="
-echo "Found ERT Deployment with guid of ${guid_mysql}"
+echo "Found MySQL Deployment with guid of ${guid_mysql}"
 echo "=============================================================================================="
 
 # Set Networks & AZs
@@ -125,12 +125,3 @@ for job in $(echo ${json_jobs_configs} | jq . | jq 'keys' | jq .[] | tr -d '"');
  fn_om_linux_curl "PUT" "/api/v0/staged/products/${guid_mysql}/jobs/${json_job_guid}/resource_config" "${json_job_config}"
 
 done
-
-# Apply Changes in Opsman
-echo "=============================================================================================="
-echo "Applying OpsMan Changes to Deploy: ${guid_mysql}"
-echo "=============================================================================================="
-om-linux --target https://opsman.$pcf_ert_domain -k \
-       --username "$pcf_opsman_admin" \
-       --password "$pcf_opsman_admin_passwd" \
-  apply-changes

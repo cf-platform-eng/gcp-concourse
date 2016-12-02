@@ -55,6 +55,9 @@ echo "==========================================================================
 export PATH=/opt/terraform/terraform:$PATH
 echo $gcp_svc_acct_key > /tmp/svc-acct.json
 
+export GOOGLE_CREDENTIALS="/tmp/svc-acct.json"
+export GOOGLE_PROJECT="${gcp_proj_id}"
+export GOOGLE_REGION="${gcp_region}"
 /opt/terraform/terraform import google_dns_managed_zone.env_dns_zone ${gcp_managed_zone}
 
 /opt/terraform/terraform plan \

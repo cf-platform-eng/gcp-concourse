@@ -14,7 +14,7 @@ om-linux --target https://opsman.$pcf_ert_domain -k \
        --username "$pcf_opsman_admin" \
        --password "$pcf_opsman_admin_passwd" \
       upload-product \
-      --product pivnet-mysql/cf*.pivotal
+      --product pivnet-mysql/p-mysql-*.pivotal
 
 ##Get Uploaded Tile --product-version
 
@@ -31,4 +31,4 @@ om-linux --target https://opsman.$pcf_ert_domain -k \
        --username "$pcf_opsman_admin" \
        --password "$pcf_opsman_admin_passwd" \
       stage-product \
-      --product-name cf --product-version ${mysql_product_version}
+      --product-name p-mysql --product-version ${mysql_product_version}

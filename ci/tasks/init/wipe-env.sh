@@ -150,7 +150,7 @@ echo "==========================================================================
 echo "Removing DNS record sets for ${gcp_terraform_prefix} in managed zone ${gcp_managed_zone}"
 echo "=============================================================================================="
 gcloud dns record-sets export /tmp/old-record-sets -z "${gcp_managed_zone}" --zone-file-format
-grep -v '.${gcp_terraform_prefix}.' /tmp/old-record-sets > /tmp/new-record-sets
+grep -v ".${gcp_terraform_prefix}." /tmp/old-record-sets > /tmp/new-record-sets
 gcloud dns record-sets import /tmp/new-record-sets -z "${gcp_managed_zone}" --zone-file-format --delete-all-existing
 
 #Wipe Instance groups

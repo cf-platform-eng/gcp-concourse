@@ -99,7 +99,7 @@ json_properties=$(cat ${json_file} | jq .properties)
 fn_om_linux_curl "PUT" "/api/v0/staged/products/${guid_mysql}/properties" "${json_properties}"
 
 json_errands=$(cat ${json_file} | jq .errands)
-if [ -n "${json_errands}" ]; then
+if [ ! "${json_errands}" = "null" ]; then
   # Set MySQL Errands
   echo "=============================================================================================="
   echo "Setting Errands for: ${guid_mysql}"

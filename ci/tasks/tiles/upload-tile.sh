@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+product="$1"
+if [ -z "${product}" ]; then
+  echo "Error: Must supply product name"
+  exit 1
+fi
+
 sudo cp tool-om/om-linux /usr/local/bin
 sudo chmod 755 /usr/local/bin/om-linux
 
@@ -14,7 +20,7 @@ om-linux --target https://opsman.$pcf_ert_domain -k \
        --username "$pcf_opsman_admin" \
        --password "$pcf_opsman_admin_passwd" \
       upload-product \
-      --product pivnet-mysql/p-mysql-*.pivotal
+      --product pivnet-${product}/${product}-*.pivotal
 
 ##Get Uploaded Tile --product-version
 
@@ -23,7 +29,7 @@ uaac target https://${opsman_host}/uaa --skip-ssl-validation > /dev/null 2>&1
 uaac token owner get opsman ${pcf_opsman_admin} -s "" -p ${pcf_opsman_admin_passwd} > /dev/null 2>&1
 export opsman_bearer_token=$(uaac context | grep access_token | awk -F ":" '{print$2}' | tr -d ' ')
 
-mysql_product_version=$(curl -s -k -X GET -H "Content-Type: application/json" -H "Authorization: Bearer ${opsman_bearer_token}" "https://${opsman_host}/api/v0/available_products" | jq ' .[] | select ( .name == "p-mysql") | .product_version ' | tr -d '"')
+product_version=$(curl -s -k -X GET -H "Content-Type: application/json" -H "Authorization: Bearer ${opsman_bearer_token}" "https://${opsman_host}/api/v0/available_products" | jq ' .[] | select ( .name == "${product}") | .product_version ' | tr -d '"')
 
 ##Move 'available product to 'staged'
 
@@ -31,4 +37,4 @@ om-linux --target https://opsman.$pcf_ert_domain -k \
        --username "$pcf_opsman_admin" \
        --password "$pcf_opsman_admin_passwd" \
       stage-product \
-      --product-name p-mysql --product-version ${mysql_product_version}
+      --product-name ${product} --product-version ${product_version}

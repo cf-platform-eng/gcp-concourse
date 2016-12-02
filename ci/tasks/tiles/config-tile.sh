@@ -1,6 +1,12 @@
 #!/bin/bash
 set -ex
 
+product="$1"
+if [ -z "${product}" ]; then
+  echo "Error: Must supply product name"
+  exit 1
+fi
+
 #############################################################
 #################### GCP Auth  & functions ##################
 #############################################################
@@ -19,8 +25,8 @@ sudo chmod 755 /usr/local/bin/om-linux
 
 # Set JSON Config Template and insert Concourse Parameter Values
 json_file_path="gcp-concourse/json-opsman/${gcp_pcf_terraform_template}"
-json_file_template="${json_file_path}/mysql-template.json"
-json_file="${json_file_path}/mysql.json"
+json_file_template="${json_file_path}/${product}-template.json"
+json_file="${json_file_path}/${product}.json"
 
 cp ${json_file_template} ${json_file}
 
@@ -72,47 +78,47 @@ function fn_om_linux_curl {
 
 
 echo "=============================================================================================="
-echo "Deploying MySQL @ https://opsman.$pcf_ert_domain ..."
+echo "Deploying ${product} @ https://opsman.$pcf_ert_domain ..."
 echo "=============================================================================================="
-# Get p-mysql Product Guid
-guid_mysql=$(fn_om_linux_curl "GET" "/api/v0/staged/products" \
-            | jq '.[] | select(.type == "p-mysql") | .guid' | tr -d '"' | grep "p-mysql-.*")
+# Get Product Guid
+product_guid=$(fn_om_linux_curl "GET" "/api/v0/staged/products" \
+            | jq '.[] | select(.type == "${product}") | .guid' | tr -d '"' | grep "${product}-.*")
 
 echo "=============================================================================================="
-echo "Found MySQL Deployment with guid of ${guid_mysql}"
+echo "Found ${product} deployment with guid of ${product_guid}"
 echo "=============================================================================================="
 
 # Set Networks & AZs
 echo "=============================================================================================="
-echo "Setting Availability Zones & Networks for: ${guid_mysql}"
+echo "Setting Availability Zones & Networks for: ${product_guid}"
 echo "=============================================================================================="
 
 json_net_and_az=$(cat ${json_file} | jq .networks_and_azs)
-fn_om_linux_curl "PUT" "/api/v0/staged/products/${guid_mysql}/networks_and_azs" "${json_net_and_az}"
+fn_om_linux_curl "PUT" "/api/v0/staged/products/${product_guid}/networks_and_azs" "${json_net_and_az}"
 
-# Set MySQL Properties
+# Set Product Properties
 echo "=============================================================================================="
-echo "Setting Properties for: ${guid_mysql}"
+echo "Setting Properties for: ${product_guid}"
 echo "=============================================================================================="
 
 json_properties=$(cat ${json_file} | jq .properties)
-fn_om_linux_curl "PUT" "/api/v0/staged/products/${guid_mysql}/properties" "${json_properties}"
+fn_om_linux_curl "PUT" "/api/v0/staged/products/${product_guid}/properties" "${json_properties}"
 
 json_errands=$(cat ${json_file} | jq .errands)
 if [ ! "${json_errands}" = "null" ]; then
-  # Set MySQL Errands
+  # Set Product Errands
   echo "=============================================================================================="
-  echo "Setting Errands for: ${guid_mysql}"
+  echo "Setting Errands for: ${product_guid}"
   echo "=============================================================================================="
-  fn_om_linux_curl "PUT" "/api/v0/staged/products/${guid_mysql}/errands" "${json_errands}"
+  fn_om_linux_curl "PUT" "/api/v0/staged/products/${product_guid}/errands" "${json_errands}"
 fi
 
 # Set Resource Configs
 echo "=============================================================================================="
-echo "Setting Resource Job Properties for: ${guid_mysql}"
+echo "Setting Resource Job Properties for: ${product_guid}"
 echo "=============================================================================================="
 json_jobs_configs=$(cat ${json_file} | jq .jobs )
-json_job_guids=$(fn_om_linux_curl "GET" "/api/v0/staged/products/${guid_mysql}/jobs" | jq .)
+json_job_guids=$(fn_om_linux_curl "GET" "/api/v0/staged/products/${product_guid}/jobs" | jq .)
 
 for job in $(echo ${json_jobs_configs} | jq . | jq 'keys' | jq .[] | tr -d '"'); do
 
@@ -122,6 +128,6 @@ for job in $(echo ${json_jobs_configs} | jq . | jq 'keys' | jq .[] | tr -d '"');
  json_job_config=$(eval ${json_job_config_cmd})
  echo "---------------------------------------------------------------------------------------------"
  echo "Setting ${json_job_guid} with --data=${json_job_config}..."
- fn_om_linux_curl "PUT" "/api/v0/staged/products/${guid_mysql}/jobs/${json_job_guid}/resource_config" "${json_job_config}"
+ fn_om_linux_curl "PUT" "/api/v0/staged/products/${product_guid}/jobs/${json_job_guid}/resource_config" "${json_job_config}"
 
 done

@@ -106,9 +106,9 @@
     }
   },
   "jobs": {
-      "consul_server": {"instance_type": {"id": "automatic"},"instances": 2,"elb_names": [],"internet_connected": false,"persistent_disk":{"size_mb":"automatic"}},
+      "consul_server": {"instance_type": {"id": "automatic"},"instances": 3,"elb_names": [],"internet_connected": false,"persistent_disk":{"size_mb":"automatic"}},
       "nats": {"instance_type": {"id": "automatic"},"instances": 2,"elb_names": [],"internet_connected": false},
-      "etcd_server": {"instance_type": {"id": "automatic"},"instances": 2,"elb_names": [],"internet_connected": false,"persistent_disk":{"size_mb":"automatic"}},
+      "etcd_server": {"instance_type": {"id": "automatic"},"instances": 3,"elb_names": [],"internet_connected": false,"persistent_disk":{"size_mb":"automatic"}},
       "nfs_server": {"instance_type": {"id": "automatic"},"instances": 0,"elb_names": [],"internet_connected": false,"persistent_disk":{"size_mb":"automatic"}},
       "mysql_proxy": {"instance_type": {"id": "automatic"},"instances": 0,"elb_names": [],"internet_connected": false},
       "mysql": {"instance_type": {"id": "automatic"},"instances": 0,"elb_names": [],"internet_connected": false,"persistent_disk":{"size_mb":"automatic"}},
@@ -123,7 +123,7 @@
       "clock_global": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},
       "cloud_controller_worker": {"instance_type": {"id": "automatic"},"instances": 2,"elb_names": [],"internet_connected": false},
       "collector": {"instance_type": {"id": "automatic"},"instances": 0,"elb_names": [],"internet_connected": false},
-      "diego_database": {"instance_type": {"id": "automatic"},"instances": 2,"elb_names": [],"internet_connected": false,"persistent_disk":{"size_mb":"automatic"}},
+      "diego_database": {"instance_type": {"id": "automatic"},"instances": 3,"elb_names": [],"internet_connected": false,"persistent_disk":{"size_mb":"automatic"}},
       "diego_brain": {"instance_type": {"id": "automatic"},"instances": 2,"elb_names": ["tcp:{{gcp_terraform_prefix}}-ssh-proxy"],"internet_connected": false,"persistent_disk":{"size_mb":"automatic"}},
       "diego_cell": {"instance_type": {"id": "automatic"},"instances": 4,"elb_names": [],"internet_connected": false},
       "doppler": {"instance_type": {"id": "automatic"},"instances": 2,"elb_names": [],"internet_connected": false},

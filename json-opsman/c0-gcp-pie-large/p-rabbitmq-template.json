@@ -1,0 +1,25 @@
+{
+  "networks_and_azs":{
+    "networks_and_azs": {
+      "singleton_availability_zone": {
+        "name": "{{gcp_zone_1}}"
+      },
+      "other_availability_zones": [
+        { "name": "{{gcp_zone_1}}" }
+      ],
+      "network": {
+        "name": "ert"
+      }
+    }
+  },
+  "properties": {
+    "properties": {
+      ".rabbitmq-server.server_admin_credentials": {
+        "value": {
+          "password": "{{pcf_opsman_admin_passwd}}", 
+          "identity": "admin"
+        } 
+      }
+    }
+  }
+}

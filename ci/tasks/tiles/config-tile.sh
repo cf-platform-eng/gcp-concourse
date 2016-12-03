@@ -89,24 +89,26 @@ echo "Found ${product} deployment with guid of ${product_guid}"
 echo "=============================================================================================="
 
 # Set Networks & AZs
-echo "=============================================================================================="
-echo "Setting Availability Zones & Networks for: ${product_guid}"
-echo "=============================================================================================="
-
 json_net_and_az=$(cat ${json_file} | jq .networks_and_azs)
-fn_om_linux_curl "PUT" "/api/v0/staged/products/${product_guid}/networks_and_azs" "${json_net_and_az}"
+if [ ! "${json_net_and_az}" = "null" ]; then
+  echo "=============================================================================================="
+  echo "Setting Availability Zones & Networks for: ${product_guid}"
+  echo "=============================================================================================="
+  fn_om_linux_curl "PUT" "/api/v0/staged/products/${product_guid}/networks_and_azs" "${json_net_and_az}"
+fi
 
 # Set Product Properties
-echo "=============================================================================================="
-echo "Setting Properties for: ${product_guid}"
-echo "=============================================================================================="
-
 json_properties=$(cat ${json_file} | jq .properties)
-fn_om_linux_curl "PUT" "/api/v0/staged/products/${product_guid}/properties" "${json_properties}"
+if [ ! "${json_properties}" = "null" ]; then
+  echo "=============================================================================================="
+  echo "Setting Properties for: ${product_guid}"
+  echo "=============================================================================================="
+  fn_om_linux_curl "PUT" "/api/v0/staged/products/${product_guid}/properties" "${json_properties}"
+fi
 
+# Set Product Errands
 json_errands=$(cat ${json_file} | jq .errands)
 if [ ! "${json_errands}" = "null" ]; then
-  # Set Product Errands
   echo "=============================================================================================="
   echo "Setting Errands for: ${product_guid}"
   echo "=============================================================================================="
@@ -114,20 +116,22 @@ if [ ! "${json_errands}" = "null" ]; then
 fi
 
 # Set Resource Configs
-echo "=============================================================================================="
-echo "Setting Resource Job Properties for: ${product_guid}"
-echo "=============================================================================================="
 json_jobs_configs=$(cat ${json_file} | jq .jobs )
-json_job_guids=$(fn_om_linux_curl "GET" "/api/v0/staged/products/${product_guid}/jobs" | jq .)
+if [ ! "${json_jobs_configs}" = "null" ]; then
+  echo "=============================================================================================="
+  echo "Setting Resource Job Properties for: ${product_guid}"
+  echo "=============================================================================================="
+  json_job_guids=$(fn_om_linux_curl "GET" "/api/v0/staged/products/${product_guid}/jobs" | jq .)
 
-for job in $(echo ${json_jobs_configs} | jq . | jq 'keys' | jq .[] | tr -d '"'); do
+  for job in $(echo ${json_jobs_configs} | jq . | jq 'keys' | jq .[] | tr -d '"'); do
 
- json_job_guid_cmd="echo \${json_job_guids} | jq '.jobs[] | select(.name == \"${job}\") | .guid' | tr -d '\"'"
- json_job_guid=$(eval ${json_job_guid_cmd})
- json_job_config_cmd="echo \${json_jobs_configs} | jq '.[\"${job}\"]' "
- json_job_config=$(eval ${json_job_config_cmd})
- echo "---------------------------------------------------------------------------------------------"
- echo "Setting ${json_job_guid} with --data=${json_job_config}..."
- fn_om_linux_curl "PUT" "/api/v0/staged/products/${product_guid}/jobs/${json_job_guid}/resource_config" "${json_job_config}"
+   json_job_guid_cmd="echo \${json_job_guids} | jq '.jobs[] | select(.name == \"${job}\") | .guid' | tr -d '\"'"
+   json_job_guid=$(eval ${json_job_guid_cmd})
+   json_job_config_cmd="echo \${json_jobs_configs} | jq '.[\"${job}\"]' "
+   json_job_config=$(eval ${json_job_config_cmd})
+   echo "---------------------------------------------------------------------------------------------"
+   echo "Setting ${json_job_guid} with --data=${json_job_config}..."
+   fn_om_linux_curl "PUT" "/api/v0/staged/products/${product_guid}/jobs/${json_job_guid}/resource_config" "${json_job_config}"
 
-done
+  done
+fi

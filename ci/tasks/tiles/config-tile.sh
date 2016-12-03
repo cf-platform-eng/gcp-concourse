@@ -82,7 +82,7 @@ echo "Deploying ${product} @ https://opsman.$pcf_ert_domain ..."
 echo "=============================================================================================="
 # Get Product Guid
 product_guid=$(fn_om_linux_curl "GET" "/api/v0/staged/products" \
-            | jq '.[] | select(.type == "${product}") | .guid' | tr -d '"' | grep "${product}-.*")
+            | jq ".[] | select(.type == \"${product}\") | .guid" | tr -d '"' | grep "${product}-.*")
 
 echo "=============================================================================================="
 echo "Found ${product} deployment with guid of ${product_guid}"

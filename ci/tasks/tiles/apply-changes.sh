@@ -44,12 +44,12 @@ function fn_om_linux_curl {
     fi
 }
 
-# After successful apply, disable all post-deploy errands to save time on future changes
-echo "=============================================================================================="
-echo "Disabling Post-Deploy Errands                                                                 "
-echo "=============================================================================================="
-json_errands=$(fn_om_linux_curl "GET" "/api/v0/staged/products/${product_guid}/errands")
-echo $json_errands | jq '.errands[] | select(.post_deploy == true) | "disabling: " + .name'
-json_errands=$(echo ${json_errands} | jq '( .errands[] | select(.post_deploy == true) | .post_deploy ) |= false')
-fn_om_linux_curl "PUT" "/api/v0/staged/products/${product_guid}/errands" "${json_errands}"
+# # After successful apply, disable all post-deploy errands to save time on future changes
+# echo "=============================================================================================="
+# echo "Disabling Post-Deploy Errands                                                                 "
+# echo "=============================================================================================="
+# json_errands=$(fn_om_linux_curl "GET" "/api/v0/staged/products/${product_guid}/errands")
+# echo $json_errands | jq '.errands[] | select(.post_deploy == true) | "disabling: " + .name'
+# json_errands=$(echo ${json_errands} | jq '( .errands[] | select(.post_deploy == true) | .post_deploy ) |= false')
+# fn_om_linux_curl "PUT" "/api/v0/staged/products/${product_guid}/errands" "${json_errands}"
 

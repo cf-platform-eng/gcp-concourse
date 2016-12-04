@@ -78,7 +78,7 @@ function fn_om_linux_curl {
 
 
 echo "=============================================================================================="
-echo "Deploying ${product} @ https://opsman.$pcf_ert_domain ..."
+echo "Finding ${product} @ https://opsman.$pcf_ert_domain ..."
 echo "=============================================================================================="
 # Get Product Guid
 product_guid=$(fn_om_linux_curl "GET" "/api/v0/staged/products" \

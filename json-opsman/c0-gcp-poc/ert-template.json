@@ -136,7 +136,6 @@
       "autoscaling-register-broker": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},
       "autoscaling-destroy-broker": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},
       "autoscaling-tests": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},
-      "acceptance-tests": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},
       "push-pivotal-account": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},
       "mysql-rejoin-unsafe": {"instance_type": {"id": "automatic"},"instances": 0,"elb_names": [],"internet_connected": false},
       "autoscaling": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},

@@ -131,7 +131,6 @@
       "push-apps-manager": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},
       "smoke-tests": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},
       "notifications-ui": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},
-      "notifications-ui-tests": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},
       "autoscaling-register-broker": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},
       "autoscaling-destroy-broker": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},
       "push-pivotal-account": {"instance_type": {"id": "automatic"},"instances": 1,"elb_names": [],"internet_connected": false},

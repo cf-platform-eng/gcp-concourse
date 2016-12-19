@@ -39,7 +39,7 @@ if [[ ${pcf_ert_ssl_cert} == "generate" ]]; then
   echo "=============================================================================================="
   echo "Generating Self Signed Certs for sys.${pcf_ert_domain} & cfapps.${pcf_ert_domain} ..."
   echo "=============================================================================================="
-  gcp-concourse/scripts/ssl/gen_ssl_certs.sh "sys.${pcf_ert_domain}" "cfapps.${pcf_ert_domain}"
+  ert-concourse/scripts/ssl/gen_ssl_certs.sh "sys.${pcf_ert_domain}" "cfapps.${pcf_ert_domain}"
   export pcf_ert_ssl_cert=$(cat sys.${pcf_ert_domain}.crt)
   export pcf_ert_ssl_key=$(cat sys.${pcf_ert_domain}.key)
 fi
@@ -49,59 +49,53 @@ if [[ $(cat gcp-concourse/terraform/c0-gcp-base/8_sql.tf | wc -c) -gt 0 ]]; then
   ert_sql_instance_name="${gcp_terraform_prefix}-sql-$(cat /proc/sys/kernel/random/uuid)"
 fi
 
-echo "=============================================================================================="
-echo "Executing Terraform of GCP IaaS ..."
-echo "=============================================================================================="
+
+##########################################################
+# Terraforming
+##########################################################
+
+# Install Terraform cli until we can update the Docker image
+wget $(wget -q -O- https://www.terraform.io/downloads.html | grep linux_amd64 | awk -F '"' '{print$2}') -O /tmp/terraform.zip
+if [ -d /opt/terraform ]; then
+  rm -rf /opt/terraform
+fi
+
+unzip /tmp/terraform.zip
+sudo cp terraform /usr/local/bin
 export PATH=/opt/terraform/terraform:$PATH
-echo $gcp_svc_acct_key > /tmp/svc-acct.json
-
-/opt/terraform/terraform plan \
-  -var "gcp_proj_id=${gcp_proj_id}" \
-  -var "gcp_region=${gcp_region}" \
-  -var "gcp_zone_1=${gcp_zone_1}" \
-  -var "gcp_zone_2=${gcp_zone_2}" \
-  -var "gcp_zone_3=${gcp_zone_3}" \
-  -var "gcp_terraform_prefix=${gcp_terraform_prefix}" \
-  -var "gcp_terraform_subnet_ops_manager=${gcp_terraform_subnet_ops_manager}" \
-  -var "gcp_terraform_subnet_ert=${gcp_terraform_subnet_ert}" \
-  -var "gcp_terraform_subnet_services_1=${gcp_terraform_subnet_services_1}" \
-  -var "gcp_managed_zone=${gcp_managed_zone}" \
-  -var "pcf_opsman_image_name=${pcf_opsman_image_name}" \
-  -var "pcf_ert_domain=${pcf_ert_domain}" \
-  -var "pcf_ert_ssl_cert=${pcf_ert_ssl_cert}" \
-  -var "pcf_ert_ssl_key=${pcf_ert_ssl_key}" \
-  -var "pub_ip_global_pcf=${pub_ip_global_pcf}" \
-  -var "pub_ip_ssh_tcp_lb=${pub_ip_ssh_tcp_lb}" \
-  -var "pub_ip_ssh_and_doppler=${pub_ip_ssh_and_doppler}" \
-  -var "pub_ip_jumpbox=${pub_ip_jumpbox}" \
-  -var "pub_ip_opsman=${pub_ip_opsman}" \
-  -var "ert_sql_instance_name=${ert_sql_instance_name}" \
-  -var "ert_sql_db_username=${pcf_opsman_admin}" \
-  -var "ert_sql_db_password=${pcf_opsman_admin_passwd}" \
-  gcp-concourse/terraform/$gcp_pcf_terraform_template
 
 
-/opt/terraform/terraform apply \
-  -var "gcp_proj_id=${gcp_proj_id}" \
-  -var "gcp_region=${gcp_region}" \
-  -var "gcp_zone_1=${gcp_zone_1}" \
-  -var "gcp_zone_2=${gcp_zone_2}" \
-  -var "gcp_zone_3=${gcp_zone_3}" \
-  -var "gcp_terraform_prefix=${gcp_terraform_prefix}" \
-  -var "gcp_terraform_subnet_ops_manager=${gcp_terraform_subnet_ops_manager}" \
-  -var "gcp_terraform_subnet_ert=${gcp_terraform_subnet_ert}" \
-  -var "gcp_terraform_subnet_services_1=${gcp_terraform_subnet_services_1}" \
-  -var "gcp_managed_zone=${gcp_managed_zone}" \
-  -var "pcf_opsman_image_name=${pcf_opsman_image_name}" \
-  -var "pcf_ert_domain=${pcf_ert_domain}" \
-  -var "pcf_ert_ssl_cert=${pcf_ert_ssl_cert}" \
-  -var "pcf_ert_ssl_key=${pcf_ert_ssl_key}" \
-  -var "pub_ip_global_pcf=${pub_ip_global_pcf}" \
-  -var "pub_ip_ssh_tcp_lb=${pub_ip_ssh_tcp_lb}" \
-  -var "pub_ip_ssh_and_doppler=${pub_ip_ssh_and_doppler}" \
-  -var "pub_ip_jumpbox=${pub_ip_jumpbox}" \
-  -var "pub_ip_opsman=${pub_ip_opsman}" \
-  -var "ert_sql_instance_name=${ert_sql_instance_name}" \
-  -var "ert_sql_db_username=${pcf_opsman_admin}" \
-  -var "ert_sql_db_password=${pcf_opsman_admin_passwd}" \
-  gcp-concourse/terraform/$gcp_pcf_terraform_template
+function fn_exec_tf {
+    echo "=============================================================================================="
+    echo "Executing Terraform ${1} ..."
+    echo "=============================================================================================="
+
+    echo $gcp_svc_acct_key > /tmp/svc-acct.json
+
+    terraform ${1} \
+      -var "gcp_proj_id=${gcp_proj_id}" \
+      -var "gcp_region=${gcp_region}" \
+      -var "gcp_zone_1=${gcp_zone_1}" \
+      -var "gcp_zone_2=${gcp_zone_2}" \
+      -var "gcp_zone_3=${gcp_zone_3}" \
+      -var "gcp_terraform_prefix=${gcp_terraform_prefix}" \
+      -var "gcp_terraform_subnet_ops_manager=${gcp_terraform_subnet_ops_manager}" \
+      -var "gcp_terraform_subnet_ert=${gcp_terraform_subnet_ert}" \
+      -var "gcp_terraform_subnet_services_1=${gcp_terraform_subnet_services_1}" \
+      -var "pcf_opsman_image_name=${pcf_opsman_image_name}" \
+      -var "pcf_ert_domain=${pcf_ert_domain}" \
+      -var "pcf_ert_ssl_cert=${pcf_ert_ssl_cert}" \
+      -var "pcf_ert_ssl_key=${pcf_ert_ssl_key}" \
+      -var "pub_ip_global_pcf=${pub_ip_global_pcf}" \
+      -var "pub_ip_ssh_tcp_lb=${pub_ip_ssh_tcp_lb}" \
+      -var "pub_ip_ssh_and_doppler=${pub_ip_ssh_and_doppler}" \
+      -var "pub_ip_jumpbox=${pub_ip_jumpbox}" \
+      -var "pub_ip_opsman=${pub_ip_opsman}" \
+      -var "ert_sql_instance_name=${ert_sql_instance_name}" \
+      -var "ert_sql_db_username=${pcf_opsman_admin}" \
+      -var "ert_sql_db_password=${pcf_opsman_admin_passwd}" \
+      gcp-concourse/terraform/$gcp_pcf_terraform_template
+}
+
+fn_exec_tf "plan"
+fn_exec_tf "apply"

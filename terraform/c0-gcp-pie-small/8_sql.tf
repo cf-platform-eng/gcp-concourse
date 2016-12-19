@@ -86,3 +86,10 @@ resource "google_sql_database" "console" {
 
   count = "1"
 }
+
+resource "google_sql_database" "routing" {
+  name     = "routing"
+  instance = "${google_sql_database_instance.master.name}"
+
+  count = "1"
+}

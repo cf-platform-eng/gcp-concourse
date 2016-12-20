@@ -50,43 +50,57 @@ resource "google_sql_user" "ert" {
 ///////////////////////////////////////////////
 
 resource "google_sql_database" "uaa" {
-  name     = "uaa"
-  instance = "${google_sql_database_instance.master.name}"
+  name       = "uaa"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_user.ert"]
 
   count = "1"
 }
 
 resource "google_sql_database" "ccdb" {
-  name     = "ccdb"
-  instance = "${google_sql_database_instance.master.name}"
+  name       = "ccdb"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.uaa"]
 
   count = "1"
 }
 
 resource "google_sql_database" "notifications" {
-  name     = "notifications"
-  instance = "${google_sql_database_instance.master.name}"
+  name       = "notifications"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.ccdb"]
 
   count = "1"
 }
 
 resource "google_sql_database" "autoscale" {
-  name     = "autoscale"
-  instance = "${google_sql_database_instance.master.name}"
+  name       = "autoscale"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.notifications"]
 
   count = "1"
 }
 
 resource "google_sql_database" "app_usage_service" {
-  name     = "app_usage_service"
-  instance = "${google_sql_database_instance.master.name}"
+  name       = "app_usage_service"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.autoscale"]
 
   count = "1"
 }
 
 resource "google_sql_database" "console" {
-  name     = "console"
-  instance = "${google_sql_database_instance.master.name}"
+  name       = "console"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.app_usage_service"]
+
+  count = "1"
+}
+
+resource "google_sql_database" "routing" {
+  name       = "console"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.console"]
 
   count = "1"
 }

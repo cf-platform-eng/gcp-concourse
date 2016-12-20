@@ -67,12 +67,12 @@ export PATH=/opt/terraform/terraform:$PATH
 
 function fn_exec_tf {
     echo "=============================================================================================="
-    echo "Executing Terraform ${1} ..."
+    echo "Executing Terraform $* ..."
     echo "=============================================================================================="
 
     echo $gcp_svc_acct_key > /tmp/svc-acct.json
 
-    terraform ${1} \
+    terraform $* \
       -var "gcp_proj_id=${gcp_proj_id}" \
       -var "gcp_region=${gcp_region}" \
       -var "gcp_zone_1=${gcp_zone_1}" \
@@ -99,4 +99,4 @@ function fn_exec_tf {
 }
 
 fn_exec_tf "plan"
-fn_exec_tf "apply"
+fn_exec_tf "apply" "--parallelism=1"

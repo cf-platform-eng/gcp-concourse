@@ -99,4 +99,8 @@ function fn_exec_tf {
 }
 
 fn_exec_tf "plan"
-fn_exec_tf "apply" "--parallelism=1"
+while true; do
+  if fn_exec_tf "apply"; then
+    break
+  fi
+done

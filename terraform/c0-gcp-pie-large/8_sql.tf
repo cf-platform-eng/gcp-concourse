@@ -105,3 +105,11 @@ resource "google_sql_database" "routing" {
 
   count = "1"
 }
+
+resource "google_sql_database" "diego" {
+  name       = "diego"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.routing"]
+
+  count = "1"
+}

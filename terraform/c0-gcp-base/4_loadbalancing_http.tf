@@ -22,7 +22,7 @@ resource "google_compute_backend_service" "ert_http_lb_backend_service" {
   name        = "${var.gcp_terraform_prefix}-http-lb-backend"
   port_name   = "http"
   protocol    = "HTTP"
-  timeout_sec = 10
+  timeout_sec = 55
   enable_cdn  = false
 
   backend {

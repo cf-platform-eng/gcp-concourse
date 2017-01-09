@@ -9,7 +9,7 @@ output "region" {
 }
 
 output "azs" {
-  value = "${var.gcp_zone_1},${var.gcp_zone_2}"
+  value = "${var.gcp_zone_1},${var.gcp_zone_2},${var.gcp_zone_3}"
 }
 
 output "deployment-prefix" {

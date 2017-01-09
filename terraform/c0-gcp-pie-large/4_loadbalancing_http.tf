@@ -8,10 +8,10 @@
 ///////////////////////////////////////////////
 
 resource "google_compute_instance_group" "ert-http-lb" {
-  count       = 2
+  count       = 3
   name        = "${var.gcp_terraform_prefix}-http-lb"
   description = "terraform generated pcf instance group that is multi-zone for http/https load balancing"
-  zone        = "${element(list(var.gcp_zone_1,var.gcp_zone_2), count.index)}"
+  zone        = "${element(list(var.gcp_zone_1,var.gcp_zone_2,var.gcp_zone_3), count.index)}"
 }
 
 ///////////////////////////////////////////////
@@ -31,6 +31,10 @@ resource "google_compute_backend_service" "ert_http_lb_backend_service" {
 
   backend {
     group = "${google_compute_instance_group.ert-http-lb.1.self_link}"
+  }
+
+  backend {
+    group = "${google_compute_instance_group.ert-http-lb.2.self_link}"
   }
 
   health_checks = ["${google_compute_http_health_check.cf.self_link}"]

@@ -62,6 +62,36 @@ resource "google_dns_record_set" "loggregator-dns" {
     rrdatas = ["${var.pub_ip_ssh_and_doppler}"]
 }
 
+resource "google_dns_record_set" "elasticsearch-logqueue-dns" {
+  name       = "elasticsearch-logqueue.sys.${var.pcf_ert_domain}."
+  type       = "A"
+  ttl        = 300
+
+  managed_zone = "${var.gcp_managed_zone}"
+
+    rrdatas = ["${var.pub_ip_ssh_and_doppler}"]
+}
+
+resource "google_dns_record_set" "mysql-logqueue-dns" {
+  name       = "mysql-logqueue.sys.${var.pcf_ert_domain}."
+  type       = "A"
+  ttl        = 300
+
+  managed_zone = "${var.gcp_managed_zone}"
+
+    rrdatas = ["${var.pub_ip_ssh_and_doppler}"]
+}
+
+resource "google_dns_record_set" "metrics-dns" {
+  name       = "metrics.sys.${var.pcf_ert_domain}."
+  type       = "A"
+  ttl        = 300
+
+  managed_zone = "${var.gcp_managed_zone}"
+
+    rrdatas = ["${var.pub_ip_ssh_and_doppler}"]
+}
+
 resource "google_dns_record_set" "tcp-dns" {
   name       = "tcp.${var.pcf_ert_domain}."
   type       = "A"

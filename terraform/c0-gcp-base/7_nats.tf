@@ -85,7 +85,7 @@ resource "google_compute_route" "nat-primary" {
   next_hop_instance = "${google_compute_instance.nat-gateway-pri.name}"
   next_hop_instance_zone = "${var.gcp_zone_1}"
   priority    = 800
-  tags        = ["${var.gcp_terraform_prefix}"]
+  tags        = ["${var.gcp_terraform_prefix}", "p-bosh"]
 }
 resource "google_compute_route" "nat-secondary" {
   name        = "${var.gcp_terraform_prefix}-nat-sec"
@@ -94,7 +94,7 @@ resource "google_compute_route" "nat-secondary" {
   next_hop_instance = "${google_compute_instance.nat-gateway-sec.name}"
   next_hop_instance_zone = "${var.gcp_zone_2}"
   priority    = 800
-  tags        = ["${var.gcp_terraform_prefix}"]
+  tags        = ["${var.gcp_terraform_prefix}", "p-bosh"]
 }
 resource "google_compute_route" "nat-tertiary" {
   name        = "${var.gcp_terraform_prefix}-nat-ter"
@@ -103,5 +103,5 @@ resource "google_compute_route" "nat-tertiary" {
   next_hop_instance = "${google_compute_instance.nat-gateway-ter.name}"
   next_hop_instance_zone = "${var.gcp_zone_3}"
   priority    = 800
-  tags        = ["${var.gcp_terraform_prefix}"]
+  tags        = ["${var.gcp_terraform_prefix}", "p-bosh"]
 }

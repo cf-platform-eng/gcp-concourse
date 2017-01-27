@@ -37,5 +37,5 @@ resource "google_compute_route" "nat-primary" {
   next_hop_instance = "${google_compute_instance.nat-gateway-pri.name}"
   next_hop_instance_zone = "${var.gcp_zone_1}"
   priority    = 800
-  tags        = ["${var.gcp_terraform_prefix}"]
+  tags        = ["${var.gcp_terraform_prefix}", "p-bosh"]
 }

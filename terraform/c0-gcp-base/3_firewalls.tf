@@ -44,7 +44,6 @@ resource "google_compute_firewall" "pcf-allow-http-8080" {
   target_tags = ["router"]
 }
 
-
 //// Create Firewall Rule for allow-https from public
 resource "google_compute_firewall" "pcf-allow-https" {
   name    = "${var.gcp_terraform_prefix}-allow-https"
@@ -58,7 +57,6 @@ resource "google_compute_firewall" "pcf-allow-https" {
   source_ranges = ["0.0.0.0/0"]
   target_tags = ["allow-https","router"]
 }
-
 
 //// Create Firewall Rule for allow-ert-all com between bosh deployed ert jobs
 //// This will match the default OpsMan tag configured for the deployment
@@ -78,7 +76,7 @@ resource "google_compute_firewall" "allow-ert-all" {
   allow {
     protocol = "udp"
   }
-  target_tags = ["${var.gcp_terraform_prefix}","${var.gcp_terraform_prefix}-opsman","nat-traverse"]
+
   source_ranges = ["${var.gcp_terraform_subnet_ert}","${var.gcp_terraform_subnet_ops_manager}","${var.gcp_terraform_subnet_services_1}"]
 }
 
@@ -95,8 +93,6 @@ resource "google_compute_firewall" "cf-ssh-proxy" {
 
   target_tags = ["${var.gcp_terraform_prefix}-ssh-proxy","diego-brain"]
 }
-
-
 
 //// Allow access to Optional CF TCP router
 resource "google_compute_firewall" "cf-tcp" {

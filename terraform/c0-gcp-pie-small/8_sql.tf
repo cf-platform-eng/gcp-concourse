@@ -70,10 +70,26 @@ resource "google_sql_database" "notifications" {
   count = "1"
 }
 
+resource "google_sql_database" "networkpolicyserver" {
+  name       = "networkpolicyserver"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.notifications"]
+
+  count = "1"
+}
+
+resource "google_sql_database" "account" {
+  name       = "account"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.networkpolicyserver"]
+
+  count = "1"
+}
+
 resource "google_sql_database" "autoscale" {
   name       = "autoscale"
   instance   = "${google_sql_database_instance.master.name}"
-  depends_on = ["google_sql_database.notifications"]
+  depends_on = ["google_sql_database.account"]
 
   count = "1"
 }

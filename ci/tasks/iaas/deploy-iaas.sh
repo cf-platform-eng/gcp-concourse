@@ -9,6 +9,11 @@ if [[ ! ${gcp_pcf_terraform_template} == "c0-gcp-base" ]]; then
   cp -rn gcp-concourse/terraform/c0-gcp-base/* gcp-concourse/terraform/${gcp_pcf_terraform_template}/
 fi
 
+# Copy extra templates
+for t in "${gcp_pcf_terraform_optional_templates[@]}"; do
+    cp gcp-concourse/terraform/c0-gcp-base/${t} gcp-concourse/terraform/${gcp_pcf_terraform_template}/
+done
+
 # Test if a GCP_Terraform_Template is using 'Init' folder to process with pre-existing IPs
 if [[ -d gcp-concourse/terraform/${gcp_pcf_terraform_template}/init ]]; then
   echo "=============================================================================================="

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 # Getting Opsmanager Image name in use from previous task upload-opsman.sh
 pcf_opsman_image_name=$(cat opsman-metadata/name)
@@ -8,13 +8,6 @@ pcf_opsman_image_name=$(cat opsman-metadata/name)
 if [[ ! ${gcp_pcf_terraform_template} == "c0-gcp-base" ]]; then
   cp -rn gcp-concourse/terraform/c0-gcp-base/* gcp-concourse/terraform/${gcp_pcf_terraform_template}/
 fi
-
-# Copy extra templates
-echo "Extra templates: ${gcp_pcf_terraform_optional_templates[*]}"
-for t in ${gcp_pcf_terraform_optional_templates[@]}; do
-    echo "Copying across template ${t}"
-    cp gcp-concourse/terraform/c0-gcp-optional/${t} gcp-concourse/terraform/${gcp_pcf_terraform_template}/
-done
 
 # Test if a GCP_Terraform_Template is using 'Init' folder to process with pre-existing IPs
 if [[ -d gcp-concourse/terraform/${gcp_pcf_terraform_template}/init ]]; then

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 # Getting Opsmanager Image name in use from previous task upload-opsman.sh
 pcf_opsman_image_name=$(cat opsman-metadata/name)

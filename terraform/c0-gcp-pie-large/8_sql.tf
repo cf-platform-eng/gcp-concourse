@@ -133,3 +133,27 @@ resource "google_sql_database" "diego" {
 
   count = "1"
 }
+
+resource "google_sql_database" "locket" {
+  name       = "locket"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.diego"]
+
+  count = "1"
+}
+
+resource "google_sql_database" "silk" {
+  name       = "silk"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.locket"]
+
+  count = "1"
+}
+
+resource "google_sql_database" "nfsvolume" {
+  name       = "nfsvolume"
+  instance   = "${google_sql_database_instance.master.name}"
+  depends_on = ["google_sql_database.silk"]
+
+  count = "1"
+}

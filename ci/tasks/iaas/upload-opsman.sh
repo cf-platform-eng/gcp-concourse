@@ -25,7 +25,7 @@ pcf_opsman_image_name="opsman-"$(echo $pcf_opsman_image_tgz | awk -F "/" '{print
 echo $pcf_opsman_image_name > opsman-metadata/name
 
 ###test if image exists & if not then create it
-if  [[ -z $(gcloud compute images list | grep $pcf_opsman_image_name) ]]; then
+if  [[ -z $(gcloud compute images list | grep "${pcf_opsman_image_name} ") ]]; then
   echo "|||Opsman $pcf_opsman_image_name not found, creating it ...."
   gcloud compute images create $pcf_opsman_image_name --family pcf-opsman --source-uri "gs://$pcf_opsman_image_tgz"
 else

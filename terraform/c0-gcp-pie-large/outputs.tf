@@ -68,6 +68,18 @@ output "ert_subnet" {
   value = "${google_compute_subnetwork.subnet-ert.name}"
 }
 
+output "ert_gateway2" {
+  value = "${google_compute_subnetwork.subnet-ert2.gateway_address}"
+}
+
+output "ert_cidr2" {
+  value = "${google_compute_subnetwork.subnet-ert2.ip_cidr_range}"
+}
+
+output "ert_subnet2" {
+  value = "${google_compute_subnetwork.subnet-ert2.name}"
+}
+
 output "svc_net_1_gateway" {
   value = "${google_compute_subnetwork.subnet-services-1.gateway_address}"
 }

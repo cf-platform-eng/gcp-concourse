@@ -68,7 +68,8 @@ export PATH=/opt/terraform/terraform:$PATH
 function fn_exec_tf {
     echo "=============================================================================================="
     echo "Executing Terraform $* ..."
-    echo ${gcp_terraform_subnet_ert2}
+    echo "Configuring ERT 1 Subnet ${gcp_terraform_subnet_ert} ..."
+    echo "Configuring ERT 2 Subnet ${gcp_terraform_subnet_ert2} ..."
     echo "=============================================================================================="
 
     echo $gcp_svc_acct_key > /tmp/svc-acct.json

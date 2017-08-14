@@ -12,7 +12,7 @@ resource "google_compute_instance" "ops-manager" {
 
   disk {
     image = "${var.pcf_opsman_image_name}"
-    size  = 50
+    size  = 150
   }
 
   network_interface {

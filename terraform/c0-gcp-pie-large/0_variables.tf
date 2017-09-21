@@ -11,7 +11,6 @@ variable "gcp_zone_3" {}
 variable "gcp_terraform_prefix" {}
 variable "gcp_terraform_subnet_ops_manager" {}
 variable "gcp_terraform_subnet_ert" {}
-variable "gcp_terraform_subnet_ert2" {}
 variable "gcp_terraform_subnet_services_1" {}
 variable "pcf_opsman_image_name" {}
 variable "pcf_ert_domain" {}

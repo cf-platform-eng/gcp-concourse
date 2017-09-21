@@ -77,7 +77,7 @@ resource "google_compute_firewall" "allow-ert-all" {
     protocol = "udp"
   }
 
-  source_ranges = ["${var.gcp_terraform_subnet_ert}","${var.gcp_terraform_subnet_ert2}","${var.gcp_terraform_subnet_ops_manager}","${var.gcp_terraform_subnet_services_1}"]
+  source_ranges = ["${var.gcp_terraform_subnet_ert}","${var.gcp_terraform_subnet_ops_manager}","${var.gcp_terraform_subnet_services_1}"]
 }
 
 //// Allow access to ssh-proxy [Optional]

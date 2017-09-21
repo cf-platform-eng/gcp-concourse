@@ -27,13 +27,6 @@
     network       = "${google_compute_network.pcf-virt-net.self_link}"
   }
 
-  //// Create Subnet for ERT2
-  resource "google_compute_subnetwork" "subnet-ert2" {
-    name          = "${var.gcp_terraform_prefix}-subnet-ert2-${var.gcp_region}"
-    ip_cidr_range = "${var.gcp_terraform_subnet_ert2}"
-    network       = "${google_compute_network.pcf-virt-net.self_link}"
-  }
-
   //// Create Subnet for Services Tile 1
   resource "google_compute_subnetwork" "subnet-services-1" {
     name          = "${var.gcp_terraform_prefix}-subnet-services-1-${var.gcp_region}"

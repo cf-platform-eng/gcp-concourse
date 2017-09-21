@@ -69,7 +69,6 @@ function fn_exec_tf {
     echo "=============================================================================================="
     echo "Executing Terraform $* ..."
     echo "Configuring ERT 1 Subnet ${gcp_terraform_subnet_ert} ..."
-    echo "Configuring ERT 2 Subnet ${gcp_terraform_subnet_ert2} ..."
     echo "=============================================================================================="
 
     echo $gcp_svc_acct_key > /tmp/svc-acct.json
@@ -84,7 +83,6 @@ function fn_exec_tf {
       -var "gcp_terraform_prefix=${gcp_terraform_prefix}" \
       -var "gcp_terraform_subnet_ops_manager=${gcp_terraform_subnet_ops_manager}" \
       -var "gcp_terraform_subnet_ert=${gcp_terraform_subnet_ert}" \
-      -var "gcp_terraform_subnet_ert2=${gcp_terraform_subnet_ert2}" \
       -var "gcp_terraform_subnet_services_1=${gcp_terraform_subnet_services_1}" \
       -var "gcp_managed_zone=${gcp_managed_zone}" \
       -var "pcf_opsman_image_name=${pcf_opsman_image_name}" \

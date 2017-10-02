@@ -10,11 +10,9 @@ resource "google_compute_instance" "ops-manager" {
 
   tags = ["${var.gcp_terraform_prefix}-opsman", "allow-https"]
 
-  boot_disk {
-    initialize_params {
-      image = "${var.pcf_opsman_image_name}"
-      size  = 150
-    }
+  disk {
+    image = "${var.pcf_opsman_image_name}"
+    size  = 150
   }
 
   network_interface {

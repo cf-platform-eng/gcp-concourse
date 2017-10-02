@@ -12,7 +12,9 @@ resource "google_compute_instance" "nat-gateway-pri" {
   tags = ["${var.gcp_terraform_prefix}-nat-instance", "nat-traverse"]
 
   boot_disk {
-    image = "ubuntu-1404-trusty-v20160610"
+    initialize_params {
+      image = "ubuntu-1404-trusty-v20160610"
+    }
   }
 
   network_interface {
@@ -39,7 +41,9 @@ resource "google_compute_instance" "nat-gateway-sec" {
   tags = ["${var.gcp_terraform_prefix}-nat-instance", "nat-traverse"]
 
   boot_disk {
-    image = "ubuntu-1404-trusty-v20160610"
+    initialize_params {
+      image = "ubuntu-1404-trusty-v20160610"
+    }
   }
 
   network_interface {
@@ -62,15 +66,20 @@ resource "google_compute_instance" "nat-gateway-ter" {
   zone           = "${var.gcp_zone_3}"
   can_ip_forward = true
   tags = ["${var.gcp_terraform_prefix}-nat-instance", "nat-traverse"]
+
   boot_disk {
-    image = "ubuntu-1404-trusty-v20160610"
+    initialize_params {
+      image = "ubuntu-1404-trusty-v20160610"
+    }
   }
+
   network_interface {
     subnetwork = "${google_compute_subnetwork.subnet-ops-manager.name}"
     access_config {
       // Ephemeral
     }
   }
+
     metadata_startup_script = <<EOF
   #! /bin/bash
   sudo sh -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'

@@ -12,7 +12,9 @@ resource "google_compute_instance" "nat-gateway-pri" {
   tags = ["${var.gcp_terraform_prefix}-nat-instance", "nat-traverse"]
 
   boot_disk {
-    image = "ubuntu-1404-trusty-v20160610"
+    initialize_params {
+      image = "ubuntu-1404-trusty-v20160610"
+    }
   }
 
   network_interface {

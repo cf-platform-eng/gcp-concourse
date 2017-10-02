@@ -11,7 +11,7 @@ resource "google_compute_instance" "nat-gateway-pri" {
   can_ip_forward = true
   tags = ["${var.gcp_terraform_prefix}-nat-instance", "nat-traverse"]
 
-  boot_disk {
+  disk {
     image = "ubuntu-1404-trusty-v20160610"
   }
 

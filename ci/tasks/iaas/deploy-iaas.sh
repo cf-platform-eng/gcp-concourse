@@ -102,8 +102,4 @@ function fn_exec_tf {
 
 fn_exec_tf "init"
 fn_exec_tf "plan"
-while true; do
-  if fn_exec_tf "apply"; then
-    break
-  fi
-done
+fn_exec_tf "apply"

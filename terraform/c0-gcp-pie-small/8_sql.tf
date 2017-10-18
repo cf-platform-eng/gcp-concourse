@@ -4,7 +4,7 @@
 
 resource "google_sql_database_instance" "master" {
   region           = "${var.gcp_region}"
-  database_version = "MYSQL_5_7"
+  database_version = "MYSQL_5_6"
   name             = "${var.ert_sql_instance_name}"
 
   settings {

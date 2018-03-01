@@ -7,7 +7,7 @@ function fn_opsman_auth {
       rm -rf mycookiejar
     fi
     # GET JSESSIONID
-    url_authorize=$(fn_opsman_curl "GET" "auth/cloudfoundry"| grep "Redirecting to" | awk '{print$3}' | sed 's/.\{3\}$//' | sed 's/http.*:443\///')
+    url_authorize="auth/cloudfoundry"
     chk_session_id=$(fn_opsman_curl "GET" $url_authorize| grep "JSESSIONID" | awk '{print$2}' | awk -F"=" '{print$2}' | tr -d ';')
     cookie_session_id=$(cat mycookiejar | grep "JSESSIONID" | awk '{print$7}')
 

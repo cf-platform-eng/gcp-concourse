@@ -73,14 +73,14 @@ network_configuration=$(
     --arg infra_gateway "192.168.101.1" \
     --arg infra_availability_zones "$availability_zones" \
     --arg deployment_network_name "ert" \
-    --arg deployment_vcenter_network "${terraform_prefix}-virt-net/${terraform_prefix}-subnet-ert-${GCP_REGION}/${GCP_REGION}" \
+    --arg deployment_vcenter_network "${terraform_prefix}-virt-net/${terraform_prefix}-subnet-ert-${gcp_region}/${gcp_region}" \
     --arg deployment_network_cidr "192.168.16.0/22" \
     --arg deployment_reserved_ip_ranges "192.168.16.1-192.168.16.9" \
     --arg deployment_dns "192.168.16.1,8.8.8.8" \
     --arg deployment_gateway "192.168.16.1" \
     --arg deployment_availability_zones "$availability_zones" \
     --arg services_network_name "services-1" \
-    --arg services_vcenter_network "${terraform_prefix}-virt-net/${terraform_prefix}-subnet-services-1-${GCP_REGION}/${GCP_REGION}" \
+    --arg services_vcenter_network "${terraform_prefix}-virt-net/${terraform_prefix}-subnet-services-1-${gcp_region}/${gcp_region}" \
     --arg services_network_cidr "192.168.20.0/22" \
     --arg services_reserved_ip_ranges "192.168.20.1-192.168.20.9" \
     --arg services_dns "192.168.20.1,8.8.8.8" \

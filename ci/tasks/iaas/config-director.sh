@@ -52,6 +52,9 @@ iaas_configuration=$(
 availability_zones=$(cat ${json_file} | jq -r '.[0].availability_zones.availability_zones[]')
 availability_zones=${availability_zones#[}
 availability_zones=${availability_zones/]}
+availability_zones=(${availability_zones})
+availability_zones=$(printf ",%s" "${availability_zones[@]}")
+availability_zones=${availability_zones:1}
 
 az_configuration=$(
   jq -n \

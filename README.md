@@ -1,3 +1,5 @@
+# gcp-concourse is no longer actively maintained by VMware.
+
 # Customer0 PCF+GCP Concourse Pipeline
 
 
